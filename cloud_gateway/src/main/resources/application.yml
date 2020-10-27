@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: cloud_gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848  #指定注册中心的位置
+    gateway:
+      enabled: true
+      discovery:
+        locator:
+          enabled: true  # 开启服务发现
+          lower-case-service-id: true  #服务名小写
+      routes:
