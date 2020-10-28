@@ -9,3 +9,5 @@ spring:
     name: service-order # data-id
 
 # @RefershScope 注解实现配置动态刷新
+# prefix = dataId
+#  外部配置文件格式：{prefix}-${spring.profile.active}.${file-extension}

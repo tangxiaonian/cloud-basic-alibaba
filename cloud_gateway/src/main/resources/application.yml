@@ -6,9 +6,74 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848  #指定注册中心的位置
     gateway:
-      enabled: true
+      enabled: true # 启用网关
+      httpclient:
+        connect-timeout: 5000
+        response-timeout: 10s
       discovery:
         locator:
           enabled: true  # 开启服务发现
           lower-case-service-id: true  #服务名小写
-      routes:
+      routes:  # 路由列表
+        - id: service_user  # 普通服务的转发方式
+          uri: lb://service-user # lb://xxx 负载的写法
+          predicates:
+            - Method=GET,POST # 支持请求的方式
+            - Path=/user/**  # /user/xx 的请求全部转发到这个服务
+          filters:
+            - name: RequestRateLimiter  #filter 名称
+              args:
+                key-resolver: '#{@apiKeyResolver}'
+                redis-rate-limiter.replenishRate: 10  #每秒最大访问CIA
+                redis-rate-limiter.burstCapacity: 20  #令牌桶最大容量
+                redis-rate-limiter.requestedTokens: 2 #时间跨度 秒
+
+        - id: service_order
+          uri: lb://service-order
+          predicates:
+            - Method=GET,POST
+            - Path=/order/**  # /order/xx 的请求全部转发到这个服务
+
+        - id: web_socket_web  # websocket形势 的转发方式
+          uri: ws://localhost:8002
+          predicates:
+            - Method=GET,POST
+            - Path=/imserver/**
+  profiles:
+    active: test
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+# ribbon 超时配置
+ribbon:
+  ConnectTimeout: 50000
+  ReadTimeout: 50000
+
+# 配置日志级别，方别调试
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+
+# 熔断时间
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        timeout:
+#          enabled: true
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 60000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+server:
+  port: 8888
