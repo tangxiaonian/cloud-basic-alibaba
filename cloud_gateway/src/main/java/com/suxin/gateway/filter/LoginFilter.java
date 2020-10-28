@@ -28,7 +28,7 @@ import java.util.Map;
 
 /**
  * @Classname LoginFilter
- * @Description [ 登录过滤器 ]
+ * @Description [ 原先的登录过滤器 ]
  * @Author Tang
  * @Date 2020/10/21 16:10
  * @Created by ASUS
