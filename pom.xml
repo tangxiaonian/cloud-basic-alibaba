@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>cloud_gateway</module>
+        <module>cloud-gateway</module>
         <module>business</module>
     </modules>
 
