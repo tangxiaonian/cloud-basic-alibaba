@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * @Classname CustomErrorWebExceptionHandler
- * @Description [ 网关的自定义异常处理器 ]
+ * @Description [ webflux的自定义异常处理器 ]
  * @Author Tang
  * @Date 2020/10/3 16:22
  * @Created by ASUS

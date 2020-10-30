@@ -9,7 +9,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
 
 /**
  * @Classname CorsConfig
- * @Description [ 全局网关跨越 ]
+ * @Description [ 全局网关跨域 ]
  * @Author Tang
  * @Date 2020/10/21 16:12
  * @Created by ASUS

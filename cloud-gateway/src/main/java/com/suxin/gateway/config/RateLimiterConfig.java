@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class RateLimiterConfig {
 
-    @Bean(value = "apiKeyResolver")
+//    @Bean(value = "apiKeyResolver")
     public KeyResolver apiKeyResolver() {
         // 超出限流的部分状态码返回 429 Too Many Requests
         return exchange -> Mono.just(exchange.getRequest().getPath().value());

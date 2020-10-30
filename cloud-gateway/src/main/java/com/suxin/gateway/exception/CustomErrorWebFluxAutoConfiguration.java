@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * @Classname CustomErrorWebFluxAutoConfiguration
- * @Description [ 自动配置类 ]
+ * @Description [ webflux的自动配置类 ]
  * @Author Tang
  * @Date 2020/10/3 16:16
  * @Created by ASUS

@@ -20,8 +20,10 @@ public class OrderFallbackFactory implements FallbackFactory<OrderClient> {
     public OrderClient create(Throwable throwable) {
         return new OrderClient() {
             @Override
-            public String index() {
-                return "远程调用index失败...";
+            public Map<String, String> index() {
+                Map<String, String> map = new HashMap<>(16);
+                map.put("msg", "远程调用index失败...");
+                return map;
             }
 
             @Override

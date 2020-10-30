@@ -8,6 +8,13 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848  #指定注册中心的位置
+        enabled: true #开启服务发现/注册
+    sentinel:
+      eager: true #是否提前触发 Sentinel 初始化
+      transport:
+        port: 8719  # 传输地址(默认8719)
+        dashboard: localhost:8080   # dashboard 地址
+      enabled: true #开启 sentinel
 
 management:
   endpoints:
@@ -15,6 +22,7 @@ management:
       exposure:
         include: "*"
 
+# 使用sentinel降级
 feign:
-  hystrix:
+  sentinel:
     enabled: true

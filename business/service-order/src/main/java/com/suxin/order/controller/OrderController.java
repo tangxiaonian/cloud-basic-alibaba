@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,8 +25,10 @@ public class OrderController {
     private String port;
 
     @GetMapping("/index")
-    public String index() {
-        return "hello order index!" + port;
+    public Map<String, String> index() {
+        Map<String, String> map = new HashMap<>();
+        map.put("msg", "hello order index!" + port);
+        return map;
     }
 
     @GetMapping("/fallback")

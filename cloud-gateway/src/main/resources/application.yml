@@ -1,10 +1,17 @@
 spring:
   application:
-    name: cloud_gateway
+    name: cloud-gateway
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848  #指定注册中心的位置
+        enabled: true #开启服务发现/注册
+    sentinel:
+      eager: true #是否提前触发 Sentinel 初始化
+      transport:
+        port: 8719  # 传输地址(默认8719)
+        dashboard: localhost:8080   # dashboard 地址
+      enabled: true #开启 sentinel
     gateway:
       enabled: true # 启用网关
       httpclient:
@@ -20,13 +27,13 @@ spring:
           predicates:
             - Method=GET,POST # 支持请求的方式
             - Path=/user/**  # /user/xx 的请求全部转发到这个服务
-          filters:
-            - name: RequestRateLimiter  #filter 名称
-              args:
-                key-resolver: '#{@apiKeyResolver}'
-                redis-rate-limiter.replenishRate: 10  #每秒最大访问CIA
-                redis-rate-limiter.burstCapacity: 20  #令牌桶最大容量
-                redis-rate-limiter.requestedTokens: 2 #时间跨度 秒
+#          filters:
+#            - name: RequestRateLimiter  #filter 名称
+#              args:
+#                key-resolver: '#{@apiKeyResolver}'
+#                redis-rate-limiter.replenishRate: 10  #每秒最大访问CIA
+#                redis-rate-limiter.burstCapacity: 20  #令牌桶最大容量
+#                redis-rate-limiter.requestedTokens: 2 #时间跨度 秒
 
         - id: service_order
           uri: lb://service-order
@@ -41,9 +48,9 @@ spring:
             - Path=/imserver/**
   profiles:
     active: test
-  redis:
-    host: 127.0.0.1
-    port: 6379
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
 
 # ribbon 超时配置
 ribbon:
@@ -51,9 +58,9 @@ ribbon:
   ReadTimeout: 50000
 
 # 配置日志级别，方别调试
-logging:
-  level:
-    org.springframework.cloud.gateway: debug
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: debug
 
 # 熔断时间
 #hystrix:

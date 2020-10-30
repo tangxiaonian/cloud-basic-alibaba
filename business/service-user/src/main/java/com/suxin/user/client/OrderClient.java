@@ -17,7 +17,7 @@ import java.util.Map;
 public interface OrderClient {
 
     @GetMapping("/index")
-    public String index();
+    public Map<String, String> index();
 
     @GetMapping("/fallback")
     public Map<String, String> fallbackMethod();
