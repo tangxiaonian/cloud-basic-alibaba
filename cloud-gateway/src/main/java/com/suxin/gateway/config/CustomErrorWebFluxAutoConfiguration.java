@@ -1,5 +1,6 @@
-package com.suxin.gateway.exception;
+package com.suxin.gateway.config;
 
+import com.suxin.gateway.exception.CustomErrorWebExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;

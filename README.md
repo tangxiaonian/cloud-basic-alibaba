@@ -3,8 +3,12 @@
 spring-cloud-alibaba 基础设施测试
 
 ## sentinel 说明
+版本：v1.8
+
 java -jar sentinel-dashboard.jar
-直接启动即可。用户名,密码都是 sentinel。
+直接启动即可。
+
+默认用户名,密码都是 sentinel。
 
 常见的参数配置：
 - -Dserver.port=8080 
@@ -13,13 +17,19 @@ java -jar sentinel-dashboard.jar
 - -Dserver.servlet.session.timeout=7200
 
 ## nacos 说明
-解压，进入bin目录打开cmd执行 startup.cmd -m standalone
+版本：v1.3
 
-启动项目nacos需要增加的配置：
+解压，进入bin目录打开cmd执行 **startup.cmd -m standalone**
 
-``` json
-service-order.yaml
+默认用户名，密码都是nacos。
 
+-m 指定启动模式。standalone 单节点，cluster 集群，默认集群启动方式。
+
+启动项目nacos中需要增加的配置：
+
+**1.service-order.yaml**
+
+```yml
 server:
   port: 8082
 
@@ -41,8 +51,11 @@ management:
     web:
       exposure:
         include: "*"
+```
 
-service-user-sentinel.json
+**2.service-user-sentinel.json**
+
+``` json
 [
     {
         "resource": "sentinelTest",  // 资源名称
@@ -54,8 +67,11 @@ service-user-sentinel.json
         "clusterMode": false
     }
 ]
+```
 
-gateway-sentinel.json
+**3.gateway-sentinel.json**
+
+```json
 [
     {
         "resource": "service_user",
@@ -75,3 +91,4 @@ gateway-sentinel.json
     }
 ]
 ```
+
