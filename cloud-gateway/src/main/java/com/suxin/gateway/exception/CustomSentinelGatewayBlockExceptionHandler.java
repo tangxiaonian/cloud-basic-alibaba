@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * @Classname CustomSentinelGatewayBlockExceptionHandler
- * @Description [ TODO ]
+ * @Description [ 自定义异常 ]
  * @Author Tang
  * @Date 2020/10/30 14:36
  * @Created by ASUS

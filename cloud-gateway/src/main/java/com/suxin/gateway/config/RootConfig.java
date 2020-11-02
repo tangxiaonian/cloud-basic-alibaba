@@ -32,7 +32,7 @@ public class RootConfig {
         return new JwtAuthenticationConfig();
     }
 
-//    @PostConstruct
+    @PostConstruct
     public void initRule() {
         // 动态从Nacos中拉取sentinel规则配置
         ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = new NacosDataSource<>(
