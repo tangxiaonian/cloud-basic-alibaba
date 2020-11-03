@@ -1,6 +1,6 @@
 package com.suxin.gateway.config;
 
-import com.suxin.gateway.exception.CustomErrorWebExceptionHandler;
+import com.suxin.gateway.handler.CustomErrorWebExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

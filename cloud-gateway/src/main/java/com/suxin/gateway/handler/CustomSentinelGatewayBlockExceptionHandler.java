@@ -1,4 +1,4 @@
-package com.suxin.gateway.exception;
+package com.suxin.gateway.handler;
 
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBlockExceptionHandler;

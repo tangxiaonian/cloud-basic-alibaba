@@ -1,4 +1,4 @@
-package com.suxin.gateway.exception;
+package com.suxin.gateway.handler;
 
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
