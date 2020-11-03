@@ -2,7 +2,6 @@ package com.suxin.gateway.config;
 
 import com.suxin.gateway.exception.CustomErrorWebExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -23,50 +22,65 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.result.view.ViewResolver;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * @Classname CustomErrorWebFluxAutoConfiguration
- * @Description [ webflux的自动配置类 ]
+ * @Description [ ErrorWebFluxAutoConfiguration ]
  * @Author Tang
- * @Date 2020/10/3 16:16
+ * @Date 2020/11/3 15:23
  * @Created by ASUS
  */
-@Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 @ConditionalOnClass(WebFluxConfigurer.class)
 @AutoConfigureBefore(WebFluxAutoConfiguration.class)
 @EnableConfigurationProperties({ ServerProperties.class, ResourceProperties.class })
-public class CustomErrorWebFluxAutoConfiguration {
+@Configuration
+public class CustomErrorWebFluxAutoConfiguration{
 
     private final ServerProperties serverProperties;
 
-    public CustomErrorWebFluxAutoConfiguration(@Autowired ServerProperties serverProperties) {
+    private final ApplicationContext applicationContext;
+
+    private final ResourceProperties resourceProperties;
+
+    private final List<ViewResolver> viewResolvers;
+
+    private final ServerCodecConfigurer serverCodecConfigurer;
+
+    public CustomErrorWebFluxAutoConfiguration(ServerProperties serverProperties,
+                                         ResourceProperties resourceProperties,
+                                         ObjectProvider<ViewResolver> viewResolversProvider,
+                                         ServerCodecConfigurer serverCodecConfigurer,
+                                         ApplicationContext applicationContext) {
         this.serverProperties = serverProperties;
+        this.applicationContext = applicationContext;
+        this.resourceProperties = resourceProperties;
+        this.viewResolvers = viewResolversProvider.orderedStream()
+                .collect(Collectors.toList());
+        this.serverCodecConfigurer = serverCodecConfigurer;
     }
 
     @Bean
     @ConditionalOnMissingBean(value = ErrorWebExceptionHandler.class, search = SearchStrategy.CURRENT)
     @Order(-1)
-    public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes,
-                                                             ResourceProperties resourceProperties, ObjectProvider<ViewResolver> viewResolvers,
-                                                             ServerCodecConfigurer serverCodecConfigurer, ApplicationContext applicationContext) {
+    public ErrorWebExceptionHandler errorWebExceptionHandler(
+            ErrorAttributes errorAttributes) {
         CustomErrorWebExceptionHandler exceptionHandler = new CustomErrorWebExceptionHandler(
-                errorAttributes,
-                resourceProperties,
-                this.serverProperties,
-                applicationContext
-        );
-        exceptionHandler.setViewResolvers(viewResolvers.orderedStream().collect(Collectors.toList()));
-        exceptionHandler.setMessageWriters(serverCodecConfigurer.getWriters());
-        exceptionHandler.setMessageReaders(serverCodecConfigurer.getReaders());
+                errorAttributes, this.resourceProperties,
+                this.serverProperties, this.applicationContext);
+        exceptionHandler.setViewResolvers(this.viewResolvers);
+        exceptionHandler.setMessageWriters(this.serverCodecConfigurer.getWriters());
+        exceptionHandler.setMessageReaders(this.serverCodecConfigurer.getReaders());
         return exceptionHandler;
     }
 
     @Bean
     @ConditionalOnMissingBean(value = ErrorAttributes.class, search = SearchStrategy.CURRENT)
     public DefaultErrorAttributes errorAttributes() {
-        return new DefaultErrorAttributes();
+        return new DefaultErrorAttributes(
+                this.serverProperties.getError().isIncludeException());
     }
 
 }

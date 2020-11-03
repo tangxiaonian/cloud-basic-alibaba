@@ -42,6 +42,7 @@ public class CustomSentinelGatewayBlockExceptionHandler extends SentinelGatewayB
      */
     private Mono<Void> writeResponse(ServerResponse response, ServerWebExchange exchange) {
         ServerHttpResponse serverHttpResponse = exchange.getResponse();
+        serverHttpResponse.setStatusCode(HttpStatus.TOO_MANY_REQUESTS);
         serverHttpResponse.getHeaders().add("Content-Type",
                 "application/json;charset=UTF-8");
         DataBuffer buffer = serverHttpResponse.bufferFactory().wrap(
