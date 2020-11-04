@@ -59,11 +59,11 @@ management:
 [
     {
         "resource": "sentinelTest",  // 资源名称
-        "limitApp": "default",
+        "limitApp": "default", // 针对流控来源,default 不区分来源
         "grade": 1,  // 阈值类型:1.QPS 0.线程数
         "count": 2,  // 阈值
-        "strategy": 0,
-        "controlBehavior": 0,
+        "strategy": 0, // 调用关系限流策略
+        "controlBehavior": 0, // 流控效果
         "clusterMode": false
     }
 ]
