@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Classname OrderController
@@ -26,7 +27,7 @@ public class OrderController {
 
     @GetMapping("/index")
     public Map<String, String> index() {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(16);
         map.put("msg", "hello order index!" + port);
         return map;
     }
@@ -34,6 +35,20 @@ public class OrderController {
     @GetMapping("/fallback")
     public Map<String, String> fallbackMethod() {
         throw new RuntimeException("error...");
+    }
+
+    @GetMapping("/downGradeTest")
+    public Map<String, String> downGradeTest() {
+        System.out.println( Thread.currentThread().getName() + "进来了...等待中..." );
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println( Thread.currentThread().getName() + "进来了...等待结束..." );
+        Map<String, String> map = new HashMap<>(16);
+        map.put("msg", "hello order downGradeMethod!" + port);
+        return map;
     }
 
 }

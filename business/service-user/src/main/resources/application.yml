@@ -16,6 +16,11 @@ spring:
         dashboard: localhost:8080   # dashboard 地址
       enabled: true #开启 sentinel
 
+# ribbon 超时配置
+#ribbon:
+#  ConnectTimeout: 40000
+#  ReadTimeout: 40000
+
 management:
   endpoints:
     web:

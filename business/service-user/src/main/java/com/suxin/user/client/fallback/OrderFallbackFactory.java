@@ -32,6 +32,13 @@ public class OrderFallbackFactory implements FallbackFactory<OrderClient> {
                 map.put("msg", "远程调用fallbackMethod失败...");
                 return map;
             }
+
+            @Override
+            public Map<String, String> downGradeTest() {
+                Map<String, String> map = new HashMap<>(16);
+                map.put("msg", "远程调用downGradeTest失败...");
+                return map;
+            }
         };
     }
 }

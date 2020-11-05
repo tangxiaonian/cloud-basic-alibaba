@@ -22,4 +22,7 @@ public interface OrderClient {
     @GetMapping("/fallback")
     public Map<String, String> fallbackMethod();
 
+    @GetMapping("/downGradeTest")
+    public Map<String, String> downGradeTest();
+
 }

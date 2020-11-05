@@ -2,6 +2,9 @@ package com.suxin.user.client.fallback;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Classname UserFallbackFactory
  * @Description [ 异常处理 ]
@@ -11,12 +14,40 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
  */
 public class UserFallbackFactory {
 
-    public static String sentinelThrowable(Integer value,Throwable throwable) {
-        return "处理业务异常..." + value;
+    /**
+     * 业务异常处理
+     * @param value
+     * @param throwable
+     * @return
+     */
+    public static Map<String, String> sentinelThrowable(Integer value,Throwable throwable) {
+        Map<String, String> map = new HashMap<>(16);
+        map.put("msg", "业务异常处理..." + value);
+        return map;
     }
 
-    public static String sentinelBlockException(Integer value,BlockException blockException) {
-        return "处理BlockException的异常...." + value;
+    /**
+     * 限流处理
+     * @param value
+     * @param blockException
+     * @return
+     */
+    public static Map<String, String> flowException(Integer value,BlockException blockException) {
+        Map<String, String> map = new HashMap<>(16);
+        map.put("msg", "限流处理....");
+        map.put("exception",blockException.getClass().getSimpleName());
+        return map;
+    }
+
+    /**
+     * 降级处理
+     * @return
+     */
+    public static Map<String, String> degradeException(BlockException blockException) {
+        Map<String, String> map = new HashMap<>(16);
+        map.put("msg", "降级处理....");
+        map.put("exception", blockException.getClass().getSimpleName());
+        return map;
     }
 
 }

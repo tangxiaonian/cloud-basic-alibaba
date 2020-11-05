@@ -23,22 +23,24 @@ public class UserController {
     @Resource
     public UserService userService;
 
-    @Resource
-    private OrderClient orderClient;
-
     @GetMapping("/index")
     public Map<String, String> index() {
-        return orderClient.index();
+        return userService.index();
     }
 
     @GetMapping("/fallback")
     public Map<String, String> fallbackMethod() {
-        return orderClient.fallbackMethod();
+        return userService.fallbackMethod();
     }
 
-    @GetMapping("/test")
-    public String sentinelTest(Integer value) {
-        return userService.sentinelTest(value);
+    @GetMapping("/flowTest")
+    public Map<String, String> flowTest(Integer value) {
+        return userService.flowTest(value);
+    }
+
+    @GetMapping("/downGradeTest")
+    public Map<String, String> downGradeTest() {
+        return userService.downGradeTest();
     }
 
 }
